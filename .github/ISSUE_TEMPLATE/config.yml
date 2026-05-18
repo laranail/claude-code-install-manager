@@ -1,0 +1,21 @@
+blank_issues_enabled: false
+
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/laranail/claude-code-install-manager/security/policy
+    about: |
+      Do NOT file a public issue for security problems. See SECURITY.md
+      for the private disclosure address (opensource@simtabi.com).
+
+  - name: Upstream Claude Code bug
+    url: https://github.com/anthropics/claude-code/issues
+    about: |
+      If the problem is in Claude Code itself (claude.exe, the install.ps1
+      script, etc.), file it upstream. This wrapper only addresses
+      Windows-side installation / PATH issues.
+
+  - name: Claude Desktop App bug
+    url: https://support.claude.com
+    about: |
+      Issues with the Claude Desktop App (not the CLI) belong with Anthropic
+      Support, not this repo.

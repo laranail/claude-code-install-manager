@@ -1,0 +1,60 @@
+name: Feature request
+description: Suggest a new subcommand, flag, or behavior.
+labels: [enhancement]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before filing: this wrapper exists to paper over **real, documented upstream issues**
+        in Claude Code's Windows installation. New features should map to a specific problem.
+
+        If your request is "make it do X", please first describe the **problem** you hit, so
+        we can decide whether X is the right shape of fix.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you running into?
+      description: |
+        Be concrete. "I had to manually do Y after installing because Z" beats "the wrapper
+        should support Y".
+      placeholder: |
+        After running `install`, my terminal still couldn't find `claude` because ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed
+    attributes:
+      label: Proposed change
+      description: |
+        What subcommand, flag, or behavior would solve it? Bullet points are fine.
+    validations:
+      required: true
+
+  - type: input
+    id: upstream
+    attributes:
+      label: Upstream issue (if any)
+      description: |
+        Link to an `anthropics/claude-code` issue that describes the underlying problem,
+        if one exists. Helps us cite the motivation in code comments.
+      placeholder: https://github.com/anthropics/claude-code/issues/12345
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Anything you tried that didn't work, or other ways this could be done.
+
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope check
+      options:
+        - label: This is about installation / PATH / diagnostics — not Claude Code itself.
+          required: true
+        - label: I read the "Scope" section of CONTRIBUTING.md.
+          required: false

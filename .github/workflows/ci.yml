@@ -1,0 +1,99 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build & test (Windows)
+    runs-on: windows-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - name: Install Pester 5
+        shell: pwsh
+        run: |
+          $existing = Get-Module -ListAvailable -Name Pester |
+                      Where-Object { $_.Version.Major -ge 5 } |
+                      Select-Object -First 1
+          if (-not $existing) {
+            Install-Module -Name Pester -MinimumVersion 5.5.0 -Scope CurrentUser -Force -SkipPublisherCheck
+          }
+          (Get-Module -ListAvailable -Name Pester | Select-Object -First 1).Version
+
+      - name: Validate batch script — help renders
+        shell: cmd
+        env:
+          CCT_NO_PAUSE: '1'
+          CCT_NO_SPIN:  '1'
+        run: |
+          call claude-code-install-manager.cmd help
+          if errorlevel 1 exit /b 1
+
+      - name: Validate batch script — version renders
+        shell: cmd
+        env:
+          CCT_NO_PAUSE: '1'
+          CCT_NO_SPIN:  '1'
+        run: |
+          call claude-code-install-manager.cmd version
+          if errorlevel 1 exit /b 1
+
+      - name: Validate batch script — doctor runs to completion
+        shell: cmd
+        env:
+          CCT_NO_PAUSE: '1'
+          CCT_NO_SPIN:  '1'
+        run: |
+          call claude-code-install-manager.cmd doctor
+          if errorlevel 1 exit /b 1
+
+      - name: Build unsigned release
+        shell: pwsh
+        run: .\build.ps1 -SkipTests -Clean
+
+      - name: Run Pester
+        shell: pwsh
+        run: |
+          $config = New-PesterConfiguration
+          $config.Run.Path = './scripts/tests'
+          $config.Run.Exit = $true
+          $config.Output.Verbosity = 'Detailed'
+          $config.TestResult.Enabled = $true
+          $config.TestResult.OutputPath = './pester-results.xml'
+          $config.TestResult.OutputFormat = 'NUnitXml'
+          Invoke-Pester -Configuration $config
+
+      - name: Upload Pester results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pester-results
+          path: pester-results.xml
+          if-no-files-found: warn
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: claude-code-install-manager-unsigned
+          path: |
+            release/dist/claude-code-install-manager.exe
+            release/dist/claude-code-install-manager.cmd
+            release/dist/SHA256SUMS
+          if-no-files-found: error

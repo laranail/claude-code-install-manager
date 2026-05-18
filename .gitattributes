@@ -1,0 +1,57 @@
+# Default: let git decide whether a file is text and normalize to LF
+# on commit, then check out with the platform-native line ending on
+# Windows clones.
+* text=auto
+
+# Windows-toolchain files always need CRLF on disk on Windows. The
+# cmd parser tolerates LF, but signtool, MSBuild, and several
+# editors do not, so we pin these explicitly.
+*.cmd        text eol=crlf
+*.bat        text eol=crlf
+*.ps1        text eol=crlf
+*.psm1       text eol=crlf
+*.psd1       text eol=crlf
+*.cs         text eol=crlf
+
+# Unix-style files keep LF regardless of clone platform.
+*.md         text eol=lf
+*.markdown   text eol=lf
+*.yml        text eol=lf
+*.yaml       text eol=lf
+*.sh         text eol=lf
+.editorconfig text eol=lf
+.gitignore    text eol=lf
+.gitattributes text eol=lf
+
+# Treat these as text without an extension.
+LICENSE      text eol=lf
+CHANGELOG    text eol=lf
+CONTRIBUTING text eol=lf
+SECURITY     text eol=lf
+
+# Binary blobs that should never be modified by git's normalization.
+*.exe        binary
+*.dll        binary
+*.pdb        binary
+*.pfx        binary
+*.p12        binary
+*.cer        binary
+*.crt        binary
+*.snk        binary
+*.png        binary
+*.jpg        binary
+*.jpeg       binary
+*.gif        binary
+*.ico        binary
+*.zip        binary
+*.tar        binary
+*.tar.gz     binary
+*.7z         binary
+
+# Export-ignore: keep CI / dev-only files out of `git archive` zipballs.
+.github/             export-ignore
+scripts/tests/       export-ignore
+.gitattributes       export-ignore
+.gitignore           export-ignore
+.editorconfig        export-ignore
+build.ps1            export-ignore

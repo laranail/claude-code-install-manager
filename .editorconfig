@@ -1,0 +1,34 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+
+# Batch files: CRLF is the platform-native line ending; cmd's parser
+# tolerates LF but a CRLF file is the safer default for Windows toolchains
+# that touch it (signtool wrappers, MSBuild tasks, etc.).
+[*.{cmd,bat}]
+end_of_line = crlf
+indent_size = 4
+
+[*.{ps1,psm1,psd1}]
+end_of_line = crlf
+indent_size = 4
+
+[*.cs]
+end_of_line = crlf
+indent_size = 4
+
+[*.{md,markdown}]
+indent_size = 2
+trim_trailing_whitespace = false
+
+[*.{yml,yaml}]
+indent_size = 2
+
+[Makefile]
+indent_style = tab

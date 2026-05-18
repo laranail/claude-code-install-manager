@@ -1,0 +1,110 @@
+name: Bug report
+description: Something the wrapper does (or doesn't do) that looks wrong.
+labels: [bug]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. **Please run `claude-code-install-manager doctor` and paste the full output below.**
+        Most install / PATH / Desktop-App-alias issues need that to triage.
+
+        For security vulnerabilities, do **not** open a public issue. See
+        [SECURITY.md](../SECURITY.md).
+
+  - type: input
+    id: wrapper_version
+    attributes:
+      label: Wrapper version
+      description: Output of `claude-code-install-manager version`.
+      placeholder: Claude Code Install Manager 0.1.0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: install_method
+    attributes:
+      label: How was Claude Code installed?
+      options:
+        - Native installer (irm https://claude.ai/install.ps1 | iex)
+        - WinGet (winget install Anthropic.ClaudeCode)
+        - npm (npm install -g @anthropic-ai/claude-code)
+        - Not installed yet (this is an install failure)
+        - Not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: shell
+    attributes:
+      label: Where did you run the wrapper?
+      options:
+        - cmd.exe (Command Prompt)
+        - PowerShell (pwsh 7+)
+        - PowerShell (Windows PowerShell 5.1)
+        - Windows Terminal
+        - VS Code integrated terminal
+        - Git Bash / WSL (not supported, but tell us if you got here)
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: windows_version
+    attributes:
+      label: Windows version
+      description: Output of `ver`.
+      placeholder: Microsoft Windows [Version 10.0.22631.4602]
+    validations:
+      required: true
+
+  - type: textarea
+    id: doctor
+    attributes:
+      label: doctor output
+      description: Full output of `claude-code-install-manager doctor`. Paste raw, no need to redact paths.
+      render: shell
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: Exact commands you ran, in order.
+      placeholder: |
+        1. claude-code-install-manager install
+        2. claude --version
+      render: shell
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      placeholder: claude --version should print 1.x.x
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: Include any error message, exit code, and the lines around the failure.
+      render: shell
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Confirmations
+      options:
+        - label: I'm running as a standard user (not Administrator).
+          required: false
+        - label: I closed and reopened my terminal after install/update before testing.
+          required: false
+        - label: I checked the README's "Known upstream issues" table and this isn't already covered.
+          required: false

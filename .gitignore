@@ -1,0 +1,50 @@
+# --- Editor / OS ------------------------------------------------------------
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.vs/
+.vscode/
+.idea/
+
+# --- Local AI / agent state -------------------------------------------------
+# Claude Code stores per-project settings (allowed tools, etc.) here. It is
+# user-machine-local and should never be checked in.
+.claude/
+.cursor/
+.copilot/
+
+# --- Build artifacts --------------------------------------------------------
+release/dist/
+release/staging/
+*.exe
+*.pdb
+*.suo
+*.user
+*.cache
+
+# Allow versioned launcher source even though *.exe is ignored
+!scripts/launcher.exe.placeholder
+
+# --- Signing material — NEVER commit these ---------------------------------
+*.pfx
+*.p12
+*.snk
+*.cer
+*.crt
+*.key
+*.pem
+*-codesign.*
+secrets/
+.env
+.env.local
+
+# --- Test output ------------------------------------------------------------
+TestResults/
+*.test.log
+coverage/
+*.cobertura.xml
+
+# --- PowerShell module artifacts -------------------------------------------
+*.psm1.bak
+PSReadLine_history.txt

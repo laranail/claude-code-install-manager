@@ -50,7 +50,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           ref: ${{ github.event.inputs.ref || github.ref }}
           persist-credentials: false
@@ -132,7 +132,7 @@ jobs:
 
       - name: Sign with Azure Trusted Signing
         if: steps.signmode.outputs.mode == 'azure'
-        uses: azure/trusted-signing-action@v0.5.1
+        uses: azure/trusted-signing-action@v2
         with:
           azure-tenant-id:        ${{ secrets.AZURE_TENANT_ID }}
           azure-client-id:        ${{ secrets.AZURE_CLIENT_ID }}
@@ -190,7 +190,7 @@ jobs:
           "name=$name" | Add-Content -Path $env:GITHUB_OUTPUT
 
       - name: Upload artifacts to workflow run
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ steps.zip.outputs.name }}
           path: ${{ steps.zip.outputs.zip }}
@@ -198,7 +198,7 @@ jobs:
 
       - name: Create / update GitHub Release
         if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ steps.ver.outputs.tag }}
           name:     "Claude Code Install Manager ${{ steps.ver.outputs.version }}"

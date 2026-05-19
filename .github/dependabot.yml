@@ -1,7 +1,9 @@
 version: 2
 
 updates:
-  # GitHub Actions used in this repo's workflows.
+  # GitHub Actions. Dependabot's github-actions ecosystem at directory `/`
+  # already scans `.github/workflows/` recursively — a second entry pointed
+  # at `/.github/workflows` would duplicate every PR.
   - package-ecosystem: github-actions
     directory: /
     schedule:
@@ -16,19 +18,11 @@ updates:
     labels:
       - dependencies
       - github-actions
-
-  # Catches updates to the workflow files under .github/workflows/.
-  - package-ecosystem: github-actions
-    directory: /.github/workflows
-    schedule:
-      interval: weekly
-      day: monday
-      time: "06:00"
-      timezone: America/New_York
-    open-pull-requests-limit: 10
-    commit-message:
-      prefix: ci
-      include: scope
-    labels:
-      - dependencies
-      - github-actions
+    groups:
+      # Roll patch/minor updates together so we don't get five PRs every
+      # Monday for routine actions/* version bumps. Majors stay separate.
+      actions-minor:
+        applies-to: version-updates
+        update-types:
+          - minor
+          - patch

@@ -76,12 +76,15 @@ Describe 'build-launcher.ps1 — parameter sets' {
 }
 
 Describe 'build-launcher.ps1 — dry-run with -SkipSign' -Tag 'Integration', 'Windows' {
+    # Skip the whole Describe on non-Windows (no csc.exe shipped). The
+    # `-Tag` lets CI on Windows run this; local Pester runs on macOS/Linux
+    # filter with `-ExcludeTag Windows`.
+
     BeforeAll {
-        $script:isWindows = $IsWindows -or [Environment]::OSVersion.Platform -eq 'Win32NT'
-        $script:tempOut   = Join-Path ([IO.Path]::GetTempPath()) ("cct-build-" + [Guid]::NewGuid())
+        $script:tempOut = Join-Path ([IO.Path]::GetTempPath()) ("cct-build-" + [Guid]::NewGuid())
     }
 
-    It 'produces claude-code-install-manager.exe and SHA256SUMS' -Skip:(-not $script:isWindows) {
+    It 'produces claude-code-install-manager.exe and SHA256SUMS' {
         & $script:buildPs1 -OutDir $script:tempOut -SkipSign | Out-Null
         $LASTEXITCODE | Should -BeIn 0, $null
 
@@ -95,7 +98,7 @@ Describe 'build-launcher.ps1 — dry-run with -SkipSign' -Tag 'Integration', 'Wi
     }
 
     AfterAll {
-        if (Test-Path -LiteralPath $script:tempOut) {
+        if ($script:tempOut -and (Test-Path -LiteralPath $script:tempOut)) {
             Remove-Item -LiteralPath $script:tempOut -Recurse -Force -ErrorAction SilentlyContinue
         }
     }

@@ -2,7 +2,7 @@ blank_issues_enabled: false
 
 contact_links:
   - name: Security vulnerability
-    url: https://github.com/laranail/claude-code-install-manager/security/policy
+    url: https://github.com/simtabi/claude-code-install-manager/security/policy
     about: |
       Do NOT file a public issue for security problems. See SECURITY.md
       for the private disclosure address (opensource@simtabi.com).

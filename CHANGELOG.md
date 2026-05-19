@@ -133,5 +133,5 @@ First public release.
 - Release notes template with stable Artifacts / Verifying /
   Upgrading sections.
 
-[Unreleased]: https://github.com/laranail/claude-code-install-manager/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/laranail/claude-code-install-manager/releases/tag/v0.1.0
+[Unreleased]: https://github.com/simtabi/claude-code-install-manager/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/simtabi/claude-code-install-manager/releases/tag/v0.1.0

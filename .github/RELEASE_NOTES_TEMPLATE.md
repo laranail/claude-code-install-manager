@@ -55,4 +55,4 @@ This is a per-user tool. To upgrade in place:
 
 ## Full change list
 
-See [CHANGELOG.md](https://github.com/laranail/claude-code-install-manager/blob/main/CHANGELOG.md).
+See [CHANGELOG.md](https://github.com/simtabi/claude-code-install-manager/blob/main/CHANGELOG.md).

@@ -513,6 +513,12 @@ machine right now.
 
 ## Releases and code signing
 
+**Setting up signing for the first time?** See
+[**docs/signing.md**](docs/signing.md) for the two supported paths
+(Azure Trusted Signing and PFX-from-a-CA), prerequisites, the exact
+`gh secret set` commands, and how to verify a signed build before
+cutting a real release.
+
 ### Why a separate `.exe`
 
 **`.cmd` and `.bat` files cannot be Authenticode-signed.** Windows'
